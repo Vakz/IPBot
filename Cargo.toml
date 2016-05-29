@@ -1,0 +1,6 @@
+[package]
+name = "IPBot"
+version = "0.1.0"
+authors = ["Fredrik Jonsén <fredrikjonsen@gmail.com>"]
+
+[dependencies]
