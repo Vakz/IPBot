@@ -4,10 +4,35 @@ mod messagehandler;
 
 use discord::Discord;
 use discord::model::Event;
+use std::fs::File;
+use std::io::prelude::*;
+use std::error::Error;
+
+fn get_token() -> Result<String, String> {
+	let mut f = match File::open("key.txt") {
+		Ok(file) => file,
+		Err(err) => return Err(err.description().to_string()),
+	};
+
+	let mut buffer = String::new();
+
+	match f.read_to_string(&mut buffer) {
+		Ok(size) => {
+			if size > 0 { Ok(buffer[0..(size-1)].to_string()) }
+			else { Err("No key in file!".to_string()) }
+		},
+		Err(err) => Err(err.description().to_string()),
+	}
+}
 
 fn main() {
 	// Log in to Discord using the email and password in the environment
-	let discord = Discord::from_bot_token("MTg2NTU3NTY3OTczOTgyMjA4.CizYBw.76v0_VOHfCNT5hU4_ojVVYgVVE0").expect("login failed");
+	let key = match get_token() {
+		Ok(key) => key,
+		Err(_) => panic!("Found no token!"),
+	};
+
+	let discord = Discord::from_bot_token(&key).expect("login failed");
 
 	// Establish and use a websocket connection
 	let (mut connection, _) = discord.connect().expect("connect failed");
