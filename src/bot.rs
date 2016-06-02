@@ -1,6 +1,7 @@
 extern crate regex;
 extern crate discord;
 
+
 use std::fs::File;
 use std::io::prelude::*;
 use std::error::Error;
@@ -39,17 +40,29 @@ impl Bot {
 
     pub fn incoming_message(&mut self, msg: &discord::model::Message) -> Option<String> {
     	println!("{} says: {}", msg.author.name, msg.content);
-        let keyword = Regex::new(r"^!([:word:]+)").unwrap();
+        lazy_static! {
+            static ref KEYWORD: Regex = Regex::new(r"^!([:word:]+)").unwrap();
+        }
+
         // Is a command?
-        let key = match keyword.captures(&msg.content) {
+        let key = match KEYWORD.captures(&msg.content) {
             Some(key) => key.at(1).unwrap(),
             None => return None
         };
-
-        match self.handlers.get(key) {
-            Some(handler) => return Some(handler.handle_message(&msg.content)),
-            None => return None
+        /*
+        if let Some(res) = self.handlers.get(key)
+        .and_then(|handler| handler.handle_message(&msg.content, &msg.author.name, &mut self.database)) {
+            return Some(res);
+        };*/
+        let handler = self.handlers.get(key);
+        let res = match handler {
+            Some(h) => h.handle_message(&msg.content, &msg.author.name, &mut self.database),
+            None => None
         };
+
+        if let Some(r) = res {
+            return Some(r);
+        }
 
     	if msg.content == "!test" {
     		return Some("This is a reply to the test.".to_string());

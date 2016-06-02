@@ -3,6 +3,7 @@ name = "ipbot"
 version = "0.1.0"
 dependencies = [
  "discord 0.5.0 (git+https://github.com/SpaceManiac/discord-rs)",
+ "lazy_static 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 0.1.71 (registry+https://github.com/rust-lang/crates.io-index)",
  "rust-sqlite 0.3.0 (git+https://github.com/dckc/rust-sqlite3)",
  "time 0.1.35 (registry+https://github.com/rust-lang/crates.io-index)",

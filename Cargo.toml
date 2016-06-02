@@ -8,3 +8,4 @@ discord = { git = "https://github.com/SpaceManiac/discord-rs" }
 rust-sqlite = { git = "https://github.com/dckc/rust-sqlite3" }
 time = "0.1.15"
 regex = "0.1.71"
+lazy_static = "0.2.1"

@@ -18,10 +18,10 @@ pub struct Database {
 }
 
 pub struct DBFile {
-    name: String,
-    dest: String,
-    user: String,
-    time: Timespec,
+    pub name: String,
+    pub dest: String,
+    pub user: String,
+    pub time: Timespec,
 }
 
 impl Database {
