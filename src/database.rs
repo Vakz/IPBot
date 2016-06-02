@@ -27,7 +27,7 @@ pub struct DBFile {
 impl Database {
     pub fn new() -> Result<Database, String> {
         match DatabaseConnection::new(self::sqlite3::access::ByFilename {
-                filename: "db.sql", flags: Default::default()
+                filename: "db.sqlite", flags: Default::default()
             })
         {
             Ok(db) => Ok(Database { conn: db }),
