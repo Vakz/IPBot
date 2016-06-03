@@ -52,7 +52,7 @@ impl Database {
         let mut stmt = self.conn.prepare("INSERT INTO Files (name, dest, user) VALUES ($1, $2, $3)").unwrap();
         match stmt.update(&[&file.name, &file.dest, &file.user]) {
             Ok(i) if i == 0 => Err("Insert failed with unknown reason"),
-            Ok(i) =>Ok(()),
+            Ok(_) =>Ok(()),
             Err(err) => Err(err.desc),
         }
     }

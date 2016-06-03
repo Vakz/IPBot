@@ -54,15 +54,10 @@ impl Bot {
         .and_then(|handler| handler.handle_message(&msg.content, &msg.author.name, &mut self.database)) {
             return Some(res);
         };*/
-        let handler = self.handlers.get(key);
-        let res = match handler {
-            Some(h) => h.handle_message(&msg.content, &msg.author.name, &mut self.database),
-            None => None
-        };
-
-        if let Some(r) = res {
-            return Some(r);
+        if let Some(h) = self.handlers.get(key) {
+            return Some(h.handle_message(&msg.content, &msg.author.name, &mut self.database));
         }
+
         println!("No handler matched or got nothing back");
     	if msg.content == "!test" {
     		return Some("This is a reply to the test.".to_string());
@@ -82,13 +77,13 @@ impl Bot {
     		Err(_) => panic!("Found no token!"),
     	};
 
-    	let mut db = match Database::new() {
+    	let db = match Database::new() {
     		Ok(d) => d,
     		Err(err) => panic!(err)
     	};
 
     	let discord = Discord::from_bot_token(&key).expect("login failed");
-        let (mut connection, _) = discord.connect().expect("connect failed");
+        let (connection, _) = discord.connect().expect("connect failed");
 
         Bot {
             client: discord,
