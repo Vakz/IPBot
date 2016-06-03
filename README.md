@@ -3,7 +3,7 @@ specific usage, and will probably never be useful to anyone else.
 
 Assumes an sqlite3 database is available as "db.sqlite", with currently a single
 table, Files:
-
+```SQL
 CREATE TABLE files(
   fileid Integer PRIMARY KEY,
   name varchar(40) UNIQUE,
@@ -11,7 +11,7 @@ CREATE TABLE files(
   user varchar(20),
   inserted DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
+```
 
 # Depends on:
 
