@@ -63,7 +63,7 @@ impl Bot {
         if let Some(r) = res {
             return Some(r);
         }
-
+        println!("No handler matched or got nothing back");
     	if msg.content == "!test" {
     		return Some("This is a reply to the test.".to_string());
     	} else if msg.author.name == "vakz" && msg.content == "!quit" {
